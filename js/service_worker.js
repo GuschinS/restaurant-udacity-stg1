@@ -1,17 +1,29 @@
-var staticCacheName = 'wittr-static-v4';
+var staticCacheName = 'restaurant-static-v4';
 
 self.addEventListener('install', function(event) {
-  // TODO: cache /skeleton rather than the root page
 
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
-        '/skeleton',
-        'js/main.js',
-        'css/main.css',
-        'imgs/icon.png',
-        'https://fonts.gstatic.com/s/roboto/v15/2UX7WLTfW3W8TclTUvlFyQ.woff',
-        'https://fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOD8E0i7KZn-EPnyo3HZu7kw.woff'
+        '/',
+        '/index.html',
+        '/restaurant.html',
+        '/css/responsive.css',
+        '/css/styles.css',
+        '/data/restaurants.json',
+        '/img/1.jpg',
+        '/img/2.jpg',
+        '/img/3.jpg',
+        '/img/4.jpg',
+        '/img/5.jpg',
+        '/img/6.jpg',
+        '/img/7.jpg',
+        '/img/8.jpg',
+        '/img/9.jpg',
+        '/img/10.jpg',
+        '/js/dbhelper.js',
+        '/js/main.js',
+        '/js/restaurant_info.js'
       ]);
     })
   );
@@ -22,7 +34,7 @@ self.addEventListener('activate', function(event) {
     caches.keys().then(function(cacheNames) {
       return Promise.all(
         cacheNames.filter(function(cacheName) {
-          return cacheName.startsWith('wittr-') &&
+          return cacheName.startsWith('restaurant-') &&
                  cacheName != staticCacheName;
         }).map(function(cacheName) {
           return caches.delete(cacheName);
@@ -33,16 +45,6 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  // TODO: respond to requests for the root page with
-  // the page skeleton from the cache
-    var requestUrl = new URL(event.request.url);
-    if (requestUrl.origin === location.origin) {
-        if (requestUrl.pathname === '/') {
-            event.respondWith(caches.match('/skeleton'));
-            return;
-        }
-    }
-
   event.respondWith(
     caches.match(event.request).then(function(response) {
       return response || fetch(event.request);
