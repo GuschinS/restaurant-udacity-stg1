@@ -1,10 +1,9 @@
-var staticCacheName = 'restaurant-static-v4';
+var staticCacheName = 'restaurant-1';
 
-self.addEventListener('install', function(event) {
-
-  event.waitUntil(
-    caches.open(staticCacheName).then(function(cache) {
-      return cache.addAll([
+self.addEventListener('install', function (event) {
+    event.waitUntil(
+        caches.open(staticCacheName).then(function (cache) {
+            return cache.addAll([
         '/',
         '/index.html',
         '/restaurant.html',
@@ -25,8 +24,8 @@ self.addEventListener('install', function(event) {
         '/js/main.js',
         '/js/restaurant_info.js'
       ]);
-    })
-  );
+        })
+    );
 });
 
 self.addEventListener('activate', function(event) {
@@ -45,15 +44,13 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
-  );
+ console.log(event.request.url);
+
+ event.respondWith(
+   caches.match(event.request).then(function(response) {
+     return response || fetch(event.request);
+   })
+ );
 });
 
-self.addEventListener('message', function(event) {
-  if (event.data.action === 'skipWaiting') {
-    self.skipWaiting();
-  }
-});
+

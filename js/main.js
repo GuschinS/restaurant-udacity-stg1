@@ -80,10 +80,11 @@ initMap = () => {
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
         mapboxToken: 'sk.eyJ1IjoiZ3VzY2hpbnMiLCJhIjoiY2premRuY2g2MHFsYjN2b2ZzcDl1NTNjaSJ9.2G7tZXQylyKBWy3G0xP5Ww',
         maxZoom: 12,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        id: 'mapbox.streets'
+//        attribution:
+            //        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            //            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            //            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox.streets'
     }).addTo(newMap);
 
     updateRestaurants();
@@ -161,10 +162,10 @@ createRestaurantHTML = (restaurant) => {
     const image = document.createElement('img');
     image.className = 'restaurant-img';
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
-    image.alt = restaurant.name;
+    image.alt = 'Image of the restaurant ' + restaurant.name;
     li.append(image);
 
-    const name = document.createElement('h1');
+    const name = document.createElement('h2');
     name.innerHTML = restaurant.name;
     li.append(name);
 
@@ -178,6 +179,8 @@ createRestaurantHTML = (restaurant) => {
 
     const more = document.createElement('a');
     more.innerHTML = 'View Details';
+    more.setAttribute('aria-label', 'View Details' + restaurant.name);
+    //    more.label = 'View Details' + restaurant.name;
     more.href = DBHelper.urlForRestaurant(restaurant);
     li.append(more)
 
@@ -211,10 +214,12 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 //  });
 //}
 
+//Register the service worker
+
 if ('serviceWorker' in navigator) {
- navigator.serviceWorker.register('/sw.js').then(function() {
-   console.log('Registration worked!');
- }).catch(function() {
-   console.log('Registration failed!');
- });
+    navigator.serviceWorker.register('/sw.js').then(function () {
+        console.log('Registration worked!');
+    }).catch(function () {
+        console.log('Registration failed!');
+    });
 }
